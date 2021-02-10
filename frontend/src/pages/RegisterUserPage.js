@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import { signup } from '../api/apiCalls'
 
 class RegisterUserPage extends React.Component{
 
@@ -18,7 +18,7 @@ class RegisterUserPage extends React.Component{
             [name] : value
         })
     };
-    onClickSignUp = event => {
+    onClickSignUp = async event => {
         event.preventDefault();
 
         const { username, displayName, password } = this.state;
@@ -30,15 +30,17 @@ class RegisterUserPage extends React.Component{
         };
         this.setState({pendingApiCall: true});
 
-        axios.post('/api/1.0/users', body)
-        .then((response)=>{
-            this.setState({pendingApiCall: false });
-        }).catch( error =>{
-            this.setState({oendingApiCall: false });
-        });
+        try{
+            const response = await signup(body);
+        } catch(error){
+
+        }
+        
+        this.setState({ pendingApiCall: false });
     };
 
     render(){
+        const { pendingApiCall } = this.state;
 
         return(
             <div className = "container">
@@ -63,9 +65,9 @@ class RegisterUserPage extends React.Component{
                     <div className = "text-center">
                         <button className = "btn btn-primary" 
                         onClick={this.onClickSignUp}
-                        disabled={this.state.pendingApiCall}
+                        disabled={pendingApiCall}
                         >
-                            {this.state.pendingApiCall && <span className = "spinner-border spinner-border-sm"></span>}  Sign Up</button>
+                            {pendingApiCall && <span className = "spinner-border spinner-border-sm"></span>}  Sign Up</button>
                     </div>
                 </form>
             </div>

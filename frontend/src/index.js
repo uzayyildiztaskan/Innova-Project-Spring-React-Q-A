@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './bootstrap-override.scss';
 import App from './App';
-import RegisterUserPage from './RegisterUserPage';
+import RegisterUserPage from './pages/RegisterUserPage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

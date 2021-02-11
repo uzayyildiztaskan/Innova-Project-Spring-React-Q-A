@@ -4,11 +4,12 @@ import './index.css';
 import './bootstrap-override.scss';
 import App from './App';
 import RegisterUserPage from './pages/RegisterUserPage';
+import LoginPage from './pages/LoginPage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RegisterUserPage />
+    <LoginPage />
   </React.StrictMode>,
   document.getElementById('root')
 );

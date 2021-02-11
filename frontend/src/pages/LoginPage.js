@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from '../components/Input';
+import { login } from '../api/apiCalls';
 
 class LoginPage extends Component {
 
@@ -14,6 +15,17 @@ class LoginPage extends Component {
             [name] : value
         })
     }
+
+    onClickLogin = event => {
+        event.preventDefault();
+        const {username, password } = this.state;
+        const creds = {
+            username,
+            password
+        }        
+        login(creds)
+    }
+
     render() {
         return (
             <div className = "container">
@@ -22,7 +34,7 @@ class LoginPage extends Component {
                     <Input label = "Username" name = "username" onChange = {this.onChange} />
                     <Input label = "Password" name = "password" type = 'password' onChange = {this.onChange} />
                     <div className = "text-center">
-                        <button className = "btn btn-primary">Login</button>
+                        <button className = "btn btn-primary" onClick = {this.onClickLogin}>Login</button>
                     </div>                    
                 </form>                
             </div>

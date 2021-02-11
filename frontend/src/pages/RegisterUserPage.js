@@ -54,8 +54,7 @@ class RegisterUserPage extends React.Component{
                 <form>
                     <h1 className = "text-center">Sign up</h1>
                     <Input name = "username" label = "Username" error = {username} onChange = {this.onChange} />
-                    <Input name = "displayName" label = "Display Name" error = {displayName} onChange = {this.onChange} />
-                    
+                    <Input name = "displayName" label = "Display Name" error = {displayName} onChange = {this.onChange} />                    
                     <div className = "form-group">
                         <label>Password</label>
                         <input className = "form-control" name = "password" type="password" onChange={this.onChange} />

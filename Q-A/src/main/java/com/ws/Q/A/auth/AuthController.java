@@ -1,6 +1,8 @@
 package com.ws.Q.A.auth;
 
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ws.Q.A.error.ApiError;
+import com.ws.Q.A.shared.Views;
 import com.ws.Q.A.user.User;
 import com.ws.Q.A.user.UserRepository;
 
@@ -24,6 +28,7 @@ public class AuthController {
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@PostMapping("/api/1.0/auth")
+	@JsonView(Views.Base.class)
 	ResponseEntity<?> handleAuthentication(@RequestHeader(name="Authorization", required = false) String authorization) {
 		if(authorization == null) {
 			ApiError error = new ApiError(401, "Unauthorized request", "/api/.1.0/auth");
@@ -47,6 +52,6 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(inDB);
 	}
 }

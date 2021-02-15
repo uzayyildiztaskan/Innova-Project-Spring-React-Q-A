@@ -20,7 +20,7 @@ public class UserAuthService implements UserDetailsService{
 		User inDB = userRepository.findByUsername(username);
 		if(inDB == null)
 			throw new UsernameNotFoundException("User not found");
-		return new QAUserDetails(inDB);
+		return inDB;
 	}
 
 }

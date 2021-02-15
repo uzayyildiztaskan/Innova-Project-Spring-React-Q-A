@@ -6,11 +6,14 @@ import App from './App';
 import RegisterUserPage from './pages/RegisterUserPage';
 import LoginPage from './pages/LoginPage';
 import reportWebVitals from './reportWebVitals';
+import ApiProgress from './shared/ApiProgress';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RegisterUserPage />
-  </React.StrictMode>,
+  <div>
+    <ApiProgress>
+      <RegisterUserPage />
+    </ApiProgress>
+  </div>,
   document.getElementById('root')
 );
 

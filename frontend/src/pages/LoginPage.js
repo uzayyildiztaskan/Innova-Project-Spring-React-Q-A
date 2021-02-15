@@ -13,21 +13,6 @@ class LoginPage extends Component {
         pendingApiCall: false
     };
 
-    componentDidMount() {
-        axios.interceptors.request.use(request => {
-            this.setState({pendingApiCall: true})
-            return request;
-        })
-
-        axios.interceptors.response.use(response => {
-            this.setState({ pendingApiCall: false});
-            return response;
-        }, (error) => {
-            this.setState({ pendingApiCall: false});
-            throw error;
-        })
-    }
-
     onChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -57,7 +42,8 @@ class LoginPage extends Component {
 
     render() {
 
-        const { username, password, error, pendingApiCall } = this.state;
+        const { pendingApiCall } = this.props;
+        const { username, password, error } = this.state;
         const buttonEnabled = username && password;
 
         return (

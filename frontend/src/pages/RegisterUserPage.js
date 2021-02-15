@@ -2,6 +2,7 @@ import React from 'react';
 import { signup } from '../api/apiCalls'
 import Input from '../components/Input';  
 import ButtonWithProgress from '../components/ButtonWithProgress';  
+import { withApiProgress } from '../shared/ApiProgress';
 
 class RegisterUserPage extends React.Component{
 
@@ -77,4 +78,5 @@ class RegisterUserPage extends React.Component{
         );
     }
 }
-export default RegisterUserPage;
+const RegisterUserPageWithApiProgress = withApiProgress(RegisterUserPage, '/api/1.0/users');
+export default RegisterUserPageWithApiProgress;

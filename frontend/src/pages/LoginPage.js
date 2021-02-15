@@ -3,6 +3,7 @@ import Input from '../components/Input';
 import { login } from '../api/apiCalls';
 import axios from 'axios';
 import ButtonWithProgress from '../components/ButtonWithProgress';
+import { withApiProgress } from '../shared/ApiProgress';
 
 class LoginPage extends Component {
 
@@ -66,5 +67,4 @@ class LoginPage extends Component {
         );
     }
 }
-
-export default LoginPage;
+export default withApiProgress(LoginPage, '/api/1.0/auth');

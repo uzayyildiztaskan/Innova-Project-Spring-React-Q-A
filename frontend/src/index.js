@@ -2,18 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './bootstrap-override.scss';
-import App from './App';
-import RegisterUserPage from './pages/RegisterUserPage';
-import LoginPage from './pages/LoginPage';
 import reportWebVitals from './reportWebVitals';
-import ApiProgress from './shared/ApiProgress';
+import App from './container/App';
 
-ReactDOM.render(
-  <div>
-    <ApiProgress>
-      <RegisterUserPage />
-    </ApiProgress>
-  </div>,
+ReactDOM.render(<App/>
+,
   document.getElementById('root')
 );
 

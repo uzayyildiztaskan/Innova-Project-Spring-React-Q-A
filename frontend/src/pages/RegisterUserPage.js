@@ -1,6 +1,7 @@
 import React from 'react';
 import { signup } from '../api/apiCalls'
-import Input from '../components/Input';    
+import Input from '../components/Input';  
+import ButtonWithProgress from '../components/ButtonWithProgress';  
 
 class RegisterUserPage extends React.Component{
 
@@ -67,11 +68,12 @@ class RegisterUserPage extends React.Component{
                     <Input name = "password" label = "Password" error = {password} onChange = {this.onChange} type = "password" />
                     <Input name = "passwordConfirm" label = "Password Confirm" error = {passwordConfirm} onChange = {this.onChange} type = "password" />                    
                     <div className = "text-center">
-                        <button className = "btn btn-primary" 
-                        onClick={this.onClickSignUp}
-                        disabled={pendingApiCall || passwordConfirm != undefined }
-                        >
-                            {pendingApiCall && <span className = "spinner-border spinner-border-sm"></span>}  Sign Up</button>
+                        <ButtonWithProgress
+                        onClick = {this.onClickSignUp}
+                        disabled = {pendingApiCall || passwordConfirm != undefined }
+                        pendingApiCall = {pendingApiCall}
+                        text = "Sign Up"
+                        />                   
                     </div>
                 </form>
             </div>

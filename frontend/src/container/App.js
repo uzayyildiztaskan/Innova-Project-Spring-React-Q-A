@@ -1,5 +1,4 @@
 import React from 'react';
-import ApiProgress from '../shared/ApiProgress';
 import RegisterUserPage from '../pages/RegisterUserPage';
 import LoginPage from '../pages/LoginPage';
 import HomePage from'../pages/HomePage';

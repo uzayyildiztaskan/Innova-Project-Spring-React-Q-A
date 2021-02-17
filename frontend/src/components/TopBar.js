@@ -4,13 +4,8 @@ import { Link } from 'react-router-dom';
 
 class TopBar extends Component {
 
-    state = {
-        isLoggedIn: false,
-        username: 'user'
-    }
-
     render() {        
-        const { isLoggedIn, username } = this.state;
+        const { isLoggedIn, username, onLogoutSuccess } = this.props;
 
         let links = (
             <ul className = "navbar-nav ml-auto">
@@ -34,7 +29,7 @@ class TopBar extends Component {
                             {username}
                         </Link>
                     </li>
-                    <li className = "nav-link">Logout</li>
+                    <li className = "nav-link" onClick = {onLogoutSuccess} style = {{cursor: 'pointer'}}>Logout</li>
                 </ul>
             );
         }

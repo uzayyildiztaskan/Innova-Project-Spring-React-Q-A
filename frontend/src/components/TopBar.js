@@ -3,7 +3,42 @@ import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 class TopBar extends Component {
-    render() {
+
+    state = {
+        isLoggedIn: false,
+        username: 'user'
+    }
+
+    render() {        
+        const { isLoggedIn, username } = this.state;
+
+        let links = (
+            <ul className = "navbar-nav ml-auto">
+                <li>
+                    <Link className = "nav-link" to = "/login">
+                        Login
+                    </Link>
+                </li>
+                <li>
+                    <Link className = "nav-link" to = "/signup">
+                        Sign Up
+                    </Link>
+                </li>
+            </ul>
+            );
+        if (isLoggedIn) {
+            links = (
+                <ul className = "navbar-nav ml-auto">
+                    <li>
+                        <Link className = "nav-link" to = {`/user/${username}`}>
+                            {username}
+                        </Link>
+                    </li>
+                    <li className = "nav-link">Logout</li>
+                </ul>
+            );
+        }
+
         return (
             <div className = "shadow-sm bg-light mb-2">                
                 <nav className = "navbar navbar-light bg-light container navbar-expand">
@@ -11,19 +46,7 @@ class TopBar extends Component {
                         <img src = {logo} width = "80" alt = "Askify Logo"/>
                         Askify
                     </Link>
-
-                    <ul className = "navbar-nav ml-auto">
-                        <li>
-                            <Link className = "nav-link" to = "/login">
-                                Login
-                            </Link>
-                        </li>
-                        <li>
-                            <Link className = "nav-link" to = "/signup">
-                                Sign Up
-                            </Link>
-                        </li>
-                    </ul>
+                    {links}                    
                 </nav>
             </div>
         );

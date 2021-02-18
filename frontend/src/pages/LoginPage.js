@@ -3,6 +3,8 @@ import Input from '../components/Input';
 import { login } from '../api/apiCalls';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
+import { connect } from 'react-redux';
+import { loginSuccess } from '../redux/authActions';
 // import { Authentication } from '../shared/AuthenticationContext';
 
 class LoginPage extends Component {
@@ -27,7 +29,6 @@ class LoginPage extends Component {
     onClickLogin = async event => {
         event.preventDefault();
         const {username, password } = this.state;
-        const onLoginSuccess = () => {}
         const creds = {
             username,
             password
@@ -47,7 +48,12 @@ class LoginPage extends Component {
                 password: password
             };
             
-            onLoginSuccess(authState);
+            // onLoginSuccess(authState);
+            const action = {
+                type: 'login-success',
+                payload: authState
+            }
+            this.props.onLoginSuccess(authState);
         } catch(apiError) {
             this.setState({
                 error: apiError.response.data.message 
@@ -81,4 +87,11 @@ class LoginPage extends Component {
         );
     }
 }
-export default withApiProgress(LoginPage, '/api/1.0/auth');
+
+const  mapDispatchToProps = (dispatch) => {
+    return {
+        onLoginSuccess: (authState) => dispatch(loginSuccess(authState))        
+    };
+}
+
+export default connect(null, mapDispatchToProps)(withApiProgress(LoginPage, '/api/1.0/auth'));

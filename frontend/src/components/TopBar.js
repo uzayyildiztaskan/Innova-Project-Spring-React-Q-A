@@ -61,5 +61,5 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogoutSuccess:() => dispatch(logoutSuccess())        
     };
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

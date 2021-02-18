@@ -4,9 +4,12 @@ import './index.css';
 import './bootstrap-override.scss';
 import reportWebVitals from './reportWebVitals';
 import App from './container/App';
+import AuthenticationContext from './shared/AuthenticationContext';
 
-ReactDOM.render(<App/>
-,
+ReactDOM.render(
+  <AuthenticationContext>
+    <App />
+  </AuthenticationContext>,
   document.getElementById('root')
 );
 

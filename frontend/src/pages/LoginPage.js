@@ -3,11 +3,11 @@ import Input from '../components/Input';
 import { login } from '../api/apiCalls';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
-import { Authentication } from '../shared/AuthenticationContext';
+// import { Authentication } from '../shared/AuthenticationContext';
 
 class LoginPage extends Component {
 
-    static contextType = Authentication;
+    // static contextType = Authentication;
 
     state = {
         username: null,
@@ -27,7 +27,7 @@ class LoginPage extends Component {
     onClickLogin = async event => {
         event.preventDefault();
         const {username, password } = this.state;
-        const { onLoginSuccess } = this.context;
+        const onLoginSuccess = () => {}
         const creds = {
             username,
             password

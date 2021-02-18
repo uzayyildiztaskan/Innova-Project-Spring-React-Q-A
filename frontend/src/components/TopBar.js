@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
-import { Authentication } from '../shared/AuthenticationContext';
+import { connect } from 'react-redux';
+// import { Authentication } from '../shared/AuthenticationContext';
 
 class TopBar extends Component {
-    
-    static contextType = Authentication;
+
+    // static contextType = Authentication;
+
+    onClickLogout = () => {
+        const action = {
+            type: 'logout-success'
+        };
+        this.props.dispatch(action);
+    }
 
     render() {        
-        const { state, onLogoutSuccess } = this.context;
-            const { isLoggedIn, username } = state;
+        const { username, isLoggedIn } = this.props;
             let links = (
                 <ul className = "navbar-nav ml-auto">
                     <li>
@@ -32,7 +39,7 @@ class TopBar extends Component {
                                 {username}
                             </Link>
                         </li>
-                        <li className = "nav-link" onClick = {onLogoutSuccess} style = {{cursor: 'pointer'}}>Logout</li>
+                        <li className = "nav-link" onClick = {this.onClickLogout} style = {{cursor: 'pointer'}}>Logout</li>
                     </ul>
                 );
             }
@@ -51,4 +58,10 @@ class TopBar extends Component {
     }
 }
 
-export default TopBar;
+const mapStateToProps = (store) => {
+    return {
+        isLoggedIn: store.isLoggedIn,
+        username: store.username
+    }
+}
+export default connect(mapStateToProps)(TopBar);

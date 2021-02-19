@@ -47,12 +47,6 @@ class LoginPage extends Component {
                 ... response.data,
                 password: password
             };
-            
-            // onLoginSuccess(authState);
-            const action = {
-                type: 'login-success',
-                payload: authState
-            }
             this.props.onLoginSuccess(authState);
         } catch(apiError) {
             this.setState({

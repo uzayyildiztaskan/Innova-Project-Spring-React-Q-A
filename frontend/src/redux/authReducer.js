@@ -6,7 +6,7 @@ const defaultState = {
     displayName: undefined,
     image: undefined,
     password: undefined
-  }
+  };
   
   const authReducer = (state = {... defaultState }, action) => {
     if (action.type == ACTIONS.LOGOUT_SUCCESS) {

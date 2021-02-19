@@ -2,9 +2,9 @@ import { createStore } from 'redux';
 import authReducer from'./authReducer';
 
 const configureStore = () => {
-    const hoaxAuth = localStorage.getItem('hoax-auth');
+    const askAuth = localStorage.getItem('ask-auth');
 
-    let stateInLocalStoreage = {
+    let stateInLocalStorage = {
       isLoggedIn: false,
       username: undefined,
       displayName: undefined,
@@ -12,15 +12,15 @@ const configureStore = () => {
       password: undefined
     };
 
-    if(hoaxAuth){
+    if(askAuth){
       try {
-        stateInLocalStoreage = JSON.parse(hoaxAuth);
+        stateInLocalStorage = JSON.parse(askAuth);
       }catch (error) {
 
       }
     }
 
-    const store = createStore(authReducer, stateInLocalStoreage, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    const store = createStore(authReducer, stateInLocalStorage, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
   
     store.subscribe(() => {
       localStorage.setItem('ask-auth', JSON.stringify(store.getState()))

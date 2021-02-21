@@ -1,46 +1,33 @@
-import React from 'react';
-import { signup } from '../api/apiCalls'
+import React, { useState } from 'react';
 import Input from '../components/Input';  
 import ButtonWithProgress from '../components/ButtonWithProgress';  
 import { withApiProgress } from '../shared/ApiProgress';
 import { connect } from 'react-redux';
 import { signupHandler } from '../redux/authActions';
 
-class RegisterUserPage extends React.Component{
-
-    state = {
+const RegisterUserPage = (props) => {
+    const [form, setForm] = useState({
         username: null,
         displayName: null,
         password: null,
         passwordConfirm: null,
-        errors: {}
-    }
+    });
+    const [errors, setErrors] = useState({});
 
-    onChange = event => {
+    const onChange = event => {
         const { name, value} = event.target;
-        const errors = { ...this.state.errors };
-        errors[name] = undefined;
-        if( name == 'password' || name == 'passwordConfirm'){
-            if(name == 'password' && value != this.state.passwordConfirm){
-                errors.passwordConfirm = 'Password mismatch';
-            } else if (name == 'passwordConfirm' && value != this.state.password){
-                errors.passwordConfirm = 'Password mismatch';
-            } else{
-                errors.passwordConfirm = undefined;
-            }
-        }
-        this.setState({
-            [name] : value,
-            errors
-        })
+        setErrors((previusErrors) => ({... previusErrors, [name]: undefined }));
+        setForm((previousForm) => ({... previousForm, [name]: value}));
+        
     };
-    onClickSignUp = async event => {
+
+    const onClickSignUp = async event => {
         event.preventDefault();
 
-        const { history, dispatch } = this.props;
-        const { push } = this.props.history;
+        const { history, dispatch } = props;
+        const { push } = history;
 
-        const { username, displayName, password } = this.state;
+        const { username, displayName, password } = form;
 
         const body = {
             username,
@@ -52,37 +39,39 @@ class RegisterUserPage extends React.Component{
             await dispatch(signupHandler(body));
             push('/');  
         } catch(error){
-            if(error.response.data.validationErrors){                
-            this.setState({ errors : error.response.data.validationErrors });
+            if(error.response.data.validationErrors){
+                setErrors( error.response.data.validationErrors);
             }
         }
     };
 
-    render(){
-        const { pendingApiCall } = this.props;
-        const { errors } = this.state;
-        const { username, displayName, password, passwordConfirm } = errors;
+    const { pendingApiCall } = props;
+    const { username: usernameError, displayName: displayNameError, password: passwordError } = errors;
 
-        return(
-            <div className = "container">
-                <form>
-                    <h1 className = "text-center">Sign up</h1>
-                    <Input name = "username" label = "Username" error = {username} onChange = {this.onChange} />
-                    <Input name = "displayName" label = "Display Name" error = {displayName} onChange = {this.onChange} />                    
-                    <Input name = "password" label = "Password" error = {password} onChange = {this.onChange} type = "password" />
-                    <Input name = "passwordConfirm" label = "Password Confirm" error = {passwordConfirm} onChange = {this.onChange} type = "password" />                    
-                    <div className = "text-center">
-                        <ButtonWithProgress
-                        onClick = {this.onClickSignUp}
-                        disabled = {pendingApiCall || passwordConfirm != undefined }
-                        pendingApiCall = {pendingApiCall}
-                        text = "Sign Up"
-                        />                   
-                    </div>
-                </form>
-            </div>
-        );
+    let passwordConfirmError;
+    if(form.password != form.passwordConfirm){
+        passwordConfirmError = 'Password mismatch'
     }
+    
+    return(
+        <div className = "container">
+            <form>
+                <h1 className = "text-center">Sign up</h1>
+                <Input name = "username" label = "Username" error = {usernameError} onChange = {onChange} />
+                <Input name = "displayName" label = "Display Name" error = {displayNameError} onChange = {onChange} />                    
+                <Input name = "password" label = "Password" error = {passwordError} onChange = {onChange} type = "password" />
+                <Input name = "passwordConfirm" label = "Password Confirm" error = {passwordConfirmError} onChange = {onChange} type = "password" />                    
+                <div className = "text-center">
+                    <ButtonWithProgress
+                    onClick = {onClickSignUp}
+                    disabled = {pendingApiCall || passwordConfirmError != undefined }
+                    pendingApiCall = {pendingApiCall}
+                    text = "Sign Up"
+                    />                   
+                </div>
+            </form>
+        </div>
+    );
 }
 const RegisterUserPageWithApiProgressForSignupRequest = withApiProgress(RegisterUserPage, '/api/1.0/users');
 const RegisterUserPageWithApiProgressForAuthRequest = withApiProgress(RegisterUserPageWithApiProgressForSignupRequest, '/api/1.0/auth')

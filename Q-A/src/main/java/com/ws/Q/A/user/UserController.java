@@ -1,10 +1,10 @@
 package com.ws.Q.A.user;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +27,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/1.0/users")
-	@JsonView(Views.Base.class)
-	List<User> getUsers(){
-		return userService.getUsers();
+//	@JsonView(Views.Base.class)
+	Page<User> getUsers(Pageable page){
+		return userService.getUsers(page);
 	}	
 }

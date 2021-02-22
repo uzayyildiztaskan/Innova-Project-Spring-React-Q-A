@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ws.Q.A.shared.Views;
 
 import lombok.Data;
 
@@ -34,21 +33,17 @@ public class User implements UserDetails{
 	@NotNull
 	@Size(min = 4, max = 255)
 	@UniqueUsername
-	@JsonView(Views.Base.class)
 	private String username;
 	
 	@NotNull
 	@Size(min = 4, max = 255)
-	@JsonView(Views.Base.class)
 	private String displayName;
 	
 	@NotNull
 	@Size(min = 8, max = 255)
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
-	@JsonView(Views.Sensitive.class)
 	private String password;
 	
-	@JsonView(Views.Base.class)
 	private String image;
 
 	@Override

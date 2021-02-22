@@ -1,5 +1,7 @@
 package com.ws.Q.A.user;
 
+import java.util.function.Function;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.ws.Q.A.shared.GenericResponse;
-import com.ws.Q.A.shared.Views;
+import com.ws.Q.A.user.vm.UserVM;
 
 @RestController
 public class UserController {
@@ -27,8 +28,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/1.0/users")
-//	@JsonView(Views.Base.class)
-	Page<User> getUsers(Pageable page){
-		return userService.getUsers(page);
+	Page<UserVM> getUsers(Pageable page){
+		return userService.getUsers(page).map(UserVM::new);
 	}	
 }

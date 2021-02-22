@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk'; 
 import authReducer from'./authReducer';
 import SecureLS from 'secure-ls';
+import { setAuthorizationHeader } from '../api/apiCalls';
 
 const SecureLs = new SecureLS();
 
@@ -27,14 +28,17 @@ const updateStateInStorage = newState => {
 }
 
 const configureStore = () => {
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    const store = createStore(authReducer, getStateFromStorage(), composeEnhancers(applyMiddleware(thunk)));
-  
-    store.subscribe(() => {
-      updateStateInStorage(store.getState());
-    });
+  const initialState = getStateFromStorage();
+  setAuthorizationHeader(initialState);
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const store = createStore(authReducer, initialState, composeEnhancers(applyMiddleware(thunk)));
 
-    return store;
-  };
+  store.subscribe(() => {
+    updateStateInStorage(store.getState());
+    setAuthorizationHeader(store.getState());
+  });
+
+  return store;
+};
 
   export default configureStore;

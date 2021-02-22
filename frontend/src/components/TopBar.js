@@ -1,12 +1,21 @@
 import React from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from '../redux/authActions';
 
 const TopBar = (props) => {
 
-    const { username, onLogoutSuccess, isLoggedIn } = props;
+    const {username, isLoggedIn} = useSelector((store) => ({     
+            isLoggedIn: store.isLoggedIn,
+            username: store.username        
+        }));
+
+    const dispatch = useDispatch();
+
+    const onLogoutSuccess = () => {
+        dispatch(logoutSuccess());
+    }
 
         let links = (
             <ul className = "navbar-nav ml-auto">
@@ -48,16 +57,4 @@ const TopBar = (props) => {
         );
 }
 
-const mapStateToProps = (store) => {
-    return {
-        isLoggedIn: store.isLoggedIn,
-        username: store.username
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onLogoutSuccess:() => dispatch(logoutSuccess())        
-    };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
+export default TopBar;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Input from '../components/Input';  
 import ButtonWithProgress from '../components/ButtonWithProgress';  
-import { withApiProgress } from '../shared/ApiProgress';
-import { connect } from 'react-redux';
+import { useApiProgress } from '../shared/ApiProgress';
+import { useDispatch } from 'react-redux';
 import { signupHandler } from '../redux/authActions';
 
 const RegisterUserPage = (props) => {
@@ -14,6 +14,8 @@ const RegisterUserPage = (props) => {
     });
     const [errors, setErrors] = useState({});
 
+    const dispatch = useDispatch();
+
     const onChange = event => {
         const { name, value} = event.target;
         setErrors((previusErrors) => ({... previusErrors, [name]: undefined }));
@@ -24,7 +26,7 @@ const RegisterUserPage = (props) => {
     const onClickSignUp = async event => {
         event.preventDefault();
 
-        const { history, dispatch } = props;
+        const { history } = props;
         const { push } = history;
 
         const { username, displayName, password } = form;
@@ -45,8 +47,11 @@ const RegisterUserPage = (props) => {
         }
     };
 
-    const { pendingApiCall } = props;
     const { username: usernameError, displayName: displayNameError, password: passwordError } = errors;
+    const pendingApiCallSignup = useApiProgress('/api/1.0/users');
+    const pendingApiCallLogin = useApiProgress('/api/1.0/auth');
+
+    const pendingApiCall = pendingApiCallLogin || pendingApiCallSignup;
 
     let passwordConfirmError;
     if(form.password != form.passwordConfirm){
@@ -73,6 +78,5 @@ const RegisterUserPage = (props) => {
         </div>
     );
 }
-const RegisterUserPageWithApiProgressForSignupRequest = withApiProgress(RegisterUserPage, '/api/1.0/users');
-const RegisterUserPageWithApiProgressForAuthRequest = withApiProgress(RegisterUserPageWithApiProgressForSignupRequest, '/api/1.0/auth')
-export default connect()(RegisterUserPageWithApiProgressForAuthRequest);
+
+export default RegisterUserPage;

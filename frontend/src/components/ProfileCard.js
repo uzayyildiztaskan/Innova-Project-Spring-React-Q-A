@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
-import Input from'./Input';
+import Input from './Input';
 
 const ProfileCard = (props) => {
     const [inEditMode, setInEditMode] = useState(false);
@@ -25,7 +25,6 @@ const ProfileCard = (props) => {
     const onClickSave = () => {
         
     }
-
 
     const pathUsername = routeParams.username;
     let message = "Edit disabled";

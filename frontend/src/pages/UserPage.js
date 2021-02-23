@@ -4,7 +4,7 @@ import { getUser } from '../api/apiCalls';
 import { useParams } from 'react-router-dom';
 
 const UserPage = () => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState({});
     const [notFound, setNotFound] = useState(false);
 
     const { username } = useParams();
@@ -40,7 +40,7 @@ const UserPage = () => {
 
     return (
         <div className = "container">
-            <ProfileCard />
+            <ProfileCard user = {user}/>
         </div>
     );
 };

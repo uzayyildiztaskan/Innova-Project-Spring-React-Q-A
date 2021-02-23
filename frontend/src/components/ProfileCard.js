@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import defaultPicture from '../assets/profile.png';
+import ProfileImageWithDefault from './ProfileImageWithDefault';
 
 const ProfileCard = (props) => {
     const { username: loggedInUsername} = useSelector((store) => ({username: store.username}));
@@ -9,21 +9,17 @@ const ProfileCard = (props) => {
 
     const { user } = props;
     const {username, displayName, image } = user;
+
     const pathUsername = routeParams.username;
     let message = "Edit disabled";
-
-    let imageSource = defaultPicture;
-    if(image) {
-        imageSource = image;
-    } 
-
     if (pathUsername == loggedInUsername) {
         message = "Edit enabled";
     }
+
     return (
         <div className = "card text-center">
             <div className = "card-header">
-                <img className = "rounded-circle shadow" width = "200" height = "200" alt = {`${username} profile`} src = {imageSource}/>
+                <ProfileImageWithDefault className = "rounded-circle shadow" width = "200" height = "200" alt = {`${username} profile`} image = {image}/>
             </div>
             <div className = "card-body">
                 <h3>

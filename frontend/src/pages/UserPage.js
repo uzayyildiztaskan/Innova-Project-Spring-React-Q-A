@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import ProfileCard from '../components/ProfileCard';
 import { getUser } from '../api/apiCalls';
 import { useParams } from 'react-router-dom';
+import { useApiProgress } from '../shared/ApiProgress';
+import Spinner from '../components/Spinner';
 
 const UserPage = () => {
     const [user, setUser] = useState({});
     const [notFound, setNotFound] = useState(false);
 
     const { username } = useParams();
+
+    const pendingApiCall = useApiProgress('/api/1.0/users/' + username);
 
     useEffect(() => {
         setNotFound(false);
@@ -24,6 +28,10 @@ const UserPage = () => {
         };
         loadUser();
     }, [username]);
+
+    if (pendingApiCall) {
+        return <Spinner />;
+    }
 
     if (notFound) {
         return (

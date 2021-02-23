@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUsers } from '../api/apiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
+import Spinner from './Spinner';
 import UserListItem from './UserListItem';
 
 const UserList = () => {
@@ -50,12 +51,8 @@ const UserList = () => {
 
     if (pendingApiCall) {
         actionDiv = (
-            <div className = "d-flex justify-content-center">
-                <div className = "spinner-border">
-                    <span className = "sr-only">Loading...</span>
-                </div>
-            </div>
-        )
+            <Spinner />
+        );
     }
     
     return (

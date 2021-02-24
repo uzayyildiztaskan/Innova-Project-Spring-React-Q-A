@@ -3,14 +3,27 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
 import Input from './Input';
+import { updateUser } from '../api/apiCalls';
+import { useApiProgress } from '../shared/ApiProgress';
+import ButtonWithProgress from './ButtonWithProgress';
 
 const ProfileCard = (props) => {
     const [inEditMode, setInEditMode] = useState(false);
     const [updatedDisplayName, setUpdatedDisplayName] = useState();
     const { username: loggedInUsername} = useSelector((store) => ({username: store.username}));
     const routeParams = useParams();
+    const pathUsername = routeParams.username;
+    const [ user, setUser] = useState({});
+    const [editable, setEditable] = useState(false);
+
+    useEffect(() => {
+        setUser(props.user)
+    }, [props.user]);
+
+    useEffect(() => {
+        setEditable(pathUsername == loggedInUsername)
+    }, [pathUsername, loggedInUsername]);
     
-    const { user } = props;
     const {username, displayName, image } = user;
     
     useEffect(() => {
@@ -22,15 +35,18 @@ const ProfileCard = (props) => {
         setUpdatedDisplayName(undefined);
     }, [inEditMode, displayName]);
 
-    const onClickSave = () => {
-        
-    }
+    const onClickSave = async () => {
+        const body = {
+            displayName: updatedDisplayName
+        };
+        try{
+            const response = await updateUser(username, body)
+            setInEditMode(false);
+            setUser(response.data);
+        } catch (error) {}
+    };
 
-    const pathUsername = routeParams.username;
-    let message = "Edit disabled";
-    if (pathUsername == loggedInUsername) {
-        message = "Edit enabled";
-    }
+    const pendingApiCall = useApiProgress('put', '/api/1.0/users/' + username);
 
     return (
         <div className = "card text-center">
@@ -43,20 +59,29 @@ const ProfileCard = (props) => {
                         <h3>
                             {displayName}@{username}
                         </h3>
-                        <button className = "btn btn-success d-inline-flex" onClick = {() => setInEditMode(true)}>
+                        {editable && <button className = "btn btn-success d-inline-flex" onClick = {() => setInEditMode(true)}>
                             <span className = "material-icons">edit</span>
                             Edit
-                        </button>
+                        </button>}
                     </>
                 )}
                 {inEditMode && (
                     <div>
                         <Input label = "Change Display Name" defaultValue = {displayName} onChange = {(event) => {setUpdatedDisplayName(event.target.value)}}/>
                         <div>
-                            <button className = "btn btn-primary d-inline-flex" onClick = {onClickSave}>
-                                <span className = "material-icons">save</span>Save
-                            </button>
-                            <button className = "btn btn-light d-inline-flex ml-1" onClick = {() => setInEditMode(false)}>
+                            <ButtonWithProgress 
+                                className = "btn btn-primary d-inline-flex" 
+                                onClick = {onClickSave} 
+                                disabled = {pendingApiCall} 
+                                pendingApiCall = {pendingApiCall} 
+                                text = {
+                                <>
+                                    <span className = "material-icons">save</span>
+                                    Save
+                                </>
+                                }
+                            />                                
+                            <button className = "btn btn-light d-inline-flex ml-1" onClick = {() => setInEditMode(false)} disabled = {pendingApiCall}>
                                 <span className = "material-icons">close</span>Cancel
                             </button>
                         </div>

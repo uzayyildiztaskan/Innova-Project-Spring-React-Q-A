@@ -3,6 +3,7 @@ import { getUsers } from '../api/apiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
 import Spinner from './Spinner';
 import UserListItem from './UserListItem';
+import { useSelector } from 'react-redux';
 
 const UserList = () => {
 
@@ -15,10 +16,14 @@ const UserList = () => {
     const [loadFailure, setLoadFailure] = useState(false);
 
     const pendingApiCall = useApiProgress('get', '/api/1.0/users?page');
+
+    const {isLoggedIn} = useSelector((store) => ({
+        isLoggedIn: store.isLoggedIn
+      }));
     
     useEffect(() => {
         loadUsers();
-    }, []);
+    }, [isLoggedIn]);
 
     const onClickNext = () => {
         const nextPage = page.number + 1;

@@ -1,4 +1,4 @@
-package com.ws.Q.A.user;
+package com.ws.Q.A.shared;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -11,12 +11,11 @@ import javax.validation.Payload;
 
 @Target({ FIELD })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { UniqueUsernameValidator.class })
-public @interface UniqueUsername {
-	String message() default "{askify.constraint.username.UniqueUsername.message}";
+@Constraint(validatedBy = { ProfileImageValidator.class })
+public @interface ProfileImage {
+	String message() default "{askify.constraint.ProfileImage.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };	
-
 }

@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.ws.Q.A.user.User;
 import com.ws.Q.A.user.UserService;
@@ -16,6 +17,7 @@ public class Application {
 	}
 	
 	@Bean
+	@Profile("dev")
 	CommandLineRunner createInitialUsers(UserService userService) {
 		return (args) -> {
 			for(int i = 1; i<=25; i++) {

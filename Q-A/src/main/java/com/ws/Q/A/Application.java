@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import com.ws.Q.A.question.Question;
+import com.ws.Q.A.question.QuestionService;
 import com.ws.Q.A.user.User;
 import com.ws.Q.A.user.UserService;
 
@@ -18,7 +20,7 @@ public class Application {
 	
 	@Bean
 	@Profile("dev")
-	CommandLineRunner createInitialUsers(UserService userService) {
+	CommandLineRunner createInitialUsers(UserService userService, QuestionService questionService) {
 		return (args) -> {
 			for(int i = 1; i<=25; i++) {
 			User user = new User();
@@ -26,6 +28,11 @@ public class Application {
 			user.setDisplayName("display" + i);
 			user.setPassword("P4ssword");
 			userService.save(user);
+			}
+			for(int i = 1; i<50; i++) {
+				Question question = new Question();
+				question.setContent("question - " + i);
+				questionService.save(question);
 			}
 		};
 	}

@@ -31,5 +31,5 @@ export const updateUser = (username, body) => {
 }
 
 export const postQuestion = question => {
-    return axios.post('/api/1.0/questions');
+    return axios.post('/api/1.0/questions', question);
 }

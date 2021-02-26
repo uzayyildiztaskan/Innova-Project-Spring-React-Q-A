@@ -1,5 +1,7 @@
 package com.ws.Q.A.question;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +16,7 @@ public class QuestionController {
 	QuestionService questionService;
 	
 	@PostMapping("/api/1.0/questions")
-	GenericResponse saveQuestion(@RequestBody Question question) {
+	GenericResponse saveQuestion(@Valid @RequestBody Question question) {
 		questionService.save(question);
 		return new GenericResponse("Question saved.");
 	}

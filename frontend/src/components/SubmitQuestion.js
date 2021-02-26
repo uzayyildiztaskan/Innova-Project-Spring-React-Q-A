@@ -20,7 +20,8 @@ const SubmitQuestion = () => {
         }
 
         try {
-            await postQuestion(body)
+            await postQuestion(body);
+            setFocused(false);
         } catch (error) {
 
         }

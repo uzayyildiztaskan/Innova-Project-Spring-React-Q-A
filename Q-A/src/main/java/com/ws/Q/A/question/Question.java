@@ -10,6 +10,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
+import com.ws.Q.A.user.User;
+
 import lombok.Data;
 
 @Data
@@ -25,5 +27,7 @@ public class Question {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
+	
+	private User user;
 
 }

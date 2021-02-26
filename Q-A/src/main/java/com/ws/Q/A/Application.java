@@ -23,16 +23,16 @@ public class Application {
 	CommandLineRunner createInitialUsers(UserService userService, QuestionService questionService) {
 		return (args) -> {
 			for(int i = 1; i<=25; i++) {
-			User user = new User();
-			user.setUsername("user" + i);
-			user.setDisplayName("display" + i);
-			user.setPassword("P4ssword");
-			userService.save(user);
-			}
-			for(int i = 1; i<50; i++) {
-				Question question = new Question();
-				question.setContent("question - " + i);
-				questionService.save(question);
+				User user = new User();
+				user.setUsername("user" + i);
+				user.setDisplayName("display" + i);
+				user.setPassword("P4ssword");
+				userService.save(user);
+				for(int j = 1; j <= 2; j++) {
+					Question question = new Question();
+					question.setContent("question - (" + j + ") from user (" + i + ")");
+					questionService.save(question, user);
+				}
 			}
 		};
 	}

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ws.Q.A.user.User;
+
 @Service
 public class QuestionService {
 	
@@ -16,8 +18,9 @@ public class QuestionService {
 		this.questionRepository = questionRepository;
 	}
 
-	public void save(Question question) {
+	public void save(Question question, User user) {
 		question.setTimestamp(new Date());
+		question.setUser(user);
 		questionRepository.save(question);		
 	}
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { postQuestion } from '../api/apiCalls';
+import { useApiProgress } from '../shared/ApiProgress';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
+import ButtonWithProgress from './ButtonWithProgress';
 
 const SubmitQuestion = () => {
     const { image } = useSelector((store) => ({image: store.image}));
@@ -18,7 +20,9 @@ const SubmitQuestion = () => {
 
     useEffect(() => {
         setErrors({});
-    }, [question])
+    }, [question]);
+
+    const pendingApiCall = useApiProgress('post', '/api/1.0/questions');
 
     const onClickSubmit = async () => {
         const body = {
@@ -48,8 +52,8 @@ const SubmitQuestion = () => {
                 <div className="invalid-feedback">{errors.content}</div>
                 {focused && (
                     <div className = "text-right mt-1">
-                        <button className = "btn btn-primary" onClick = {onClickSubmit}>Submit</button>
-                        <button className = "btn btn-light d-inline-flex ml-1" onClick = {() => setFocused(false)}>
+                        <ButtonWithProgress className = "btn btn-primary" onClick = {onClickSubmit} text = "Submit" pendingApiCall = {pendingApiCall} disabled = {pendingApiCall}/>
+                        <button className = "btn btn-light d-inline-flex ml-1" onClick = {() => setFocused(false)} disabled = {pendingApiCall}>
                             <span className = "material-icons">close</span>Cancel
                         </button>
                     </div>

@@ -2,13 +2,17 @@ import React from 'react';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
+import { useSelector } from 'react-redux';
 
 const QuestionView = (props) => {
+    const loggedInUser = useSelector(store => store.username);
     const { question } = props;
     const { user, content, timestamp } = question;
     const { username, displayName, image } = user;
 
     const formatted = format(timestamp);
+
+    const ownedByLoggedInUser = loggedInUser == username;
 
     return (
         <div className = "card p-1">
@@ -21,6 +25,11 @@ const QuestionView = (props) => {
                         <span>{formatted}</span>
                     </Link>
                 </div>
+                {ownedByLoggedInUser && (
+                    <button className = "btn btn-delete-link btn-sm">
+                        <span className = "material-icons">delete_outline</span>
+                    </button>
+                )}
             </div>
             <div className = "pl-5">
                 {content}

@@ -34,6 +34,7 @@ export const postQuestion = question => {
     return axios.post('/api/1.0/questions', question);
 };
 
-export const getQuestions = (page = 0) => {
-    return axios.get('/api/1.0/questions?page=' + page);
+export const getQuestions = (username, page = 0) => {
+    const path = username ? `/api/1.0/users/${username}/questions?page=` : '/api/1.0/questions?page='
+    return axios.get(path+ page);
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { getQuestions } from '../api/apiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
 import QuestionView from './QuestionView';
@@ -8,15 +9,18 @@ const QuestionFeed = () => {
 
     const [questionPage, setQuestionPage] = useState({content: [], last: true, number: 0});
     
-    const pendingApiCall = useApiProgress('get', '/api/1.0/questions');
-
+    const { username } = useParams();
+    
+    const path = username ? `/api/1.0/users/${username}/questions?page=` : '/api/1.0/questions?page=';
+    const pendingApiCall = useApiProgress('get', path);
+    
     useEffect(() => {        
         loadQuestions();
     }, []);
 
     const loadQuestions = async (page) => {
         try{
-            const response = await getQuestions(page);
+            const response = await getQuestions(username, page);
             setQuestionPage(previousQuestionPage => ({
                 ... response.data,
                 content: [... previousQuestionPage.content, ... response.data.content]

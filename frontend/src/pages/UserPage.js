@@ -4,6 +4,7 @@ import { getUser } from '../api/apiCalls';
 import { useParams } from 'react-router-dom';
 import { useApiProgress } from '../shared/ApiProgress';
 import Spinner from '../components/Spinner';
+import QuestionFeed from '../components/QuestionFeed';
 
 const UserPage = () => {
     const [user, setUser] = useState({});
@@ -11,7 +12,7 @@ const UserPage = () => {
 
     const { username } = useParams();
 
-    const pendingApiCall = useApiProgress('get', '/api/1.0/users/' + username);
+    const pendingApiCall = useApiProgress('get', '/api/1.0/users/' + username, true);
 
     useEffect(() => {
         setNotFound(false);
@@ -28,11 +29,7 @@ const UserPage = () => {
         };
         loadUser();
     }, [username]);
-
-    if (pendingApiCall) {
-        return <Spinner />;
-    }
-
+    
     if (notFound) {
         return (
             <div className = "container">
@@ -46,9 +43,21 @@ const UserPage = () => {
         );
     }
 
+    if (pendingApiCall || user.username != username ) {
+        return <Spinner />;
+    }
+
+
     return (
         <div className = "container">
-            <ProfileCard user = {user}/>
+            <div className = "row">
+                <div className = "col">
+                    <ProfileCard user = {user}/>
+                </div>
+                <div className = "col">
+                    <QuestionFeed />
+                </div>
+            </div>
         </div>
     );
 };

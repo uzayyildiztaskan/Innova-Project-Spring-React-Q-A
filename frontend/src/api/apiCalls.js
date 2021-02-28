@@ -56,3 +56,7 @@ export const getNewQuestions = (id, username) => {
 export const deleteQuestion = id =>{
     return axios.delete(`/api/1.0/questions/${id}`);
 }
+
+export const deleteUser = username => {
+    return axios.delete(`/api/1.0/users/${username}`);
+}

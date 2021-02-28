@@ -87,8 +87,7 @@ public class QuestionService {
 		};
 	}
 
-	public void delete(long id) {
-		questionRepository.deleteById(id);
-		
+	public void delete(long id) {		
+		questionRepository.deleteById(id);		
 	}
 }

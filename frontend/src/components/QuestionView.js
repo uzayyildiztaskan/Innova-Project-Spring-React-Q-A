@@ -3,16 +3,22 @@ import ProfileImageWithDefault from './ProfileImageWithDefault';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
 import { useSelector } from 'react-redux';
+import { deleteQuestion } from '../api/apiCalls';
 
 const QuestionView = (props) => {
     const loggedInUser = useSelector(store => store.username);
-    const { question } = props;
-    const { user, content, timestamp } = question;
+    const { question, onDeleteQuestion } = props;
+    const { user, content, timestamp, id } = question;
     const { username, displayName, image } = user;
 
     const formatted = format(timestamp);
 
     const ownedByLoggedInUser = loggedInUser == username;
+
+    const onClickDelete = async () => {
+        await deleteQuestion(id);
+        onDeleteQuestion(id);
+    }
 
     return (
         <div className = "card p-1">
@@ -26,7 +32,7 @@ const QuestionView = (props) => {
                     </Link>
                 </div>
                 {ownedByLoggedInUser && (
-                    <button className = "btn btn-delete-link btn-sm">
+                    <button className = "btn btn-delete-link btn-sm" onClick = {onClickDelete}>
                         <span className = "material-icons">delete_outline</span>
                     </button>
                 )}

@@ -86,4 +86,9 @@ public class QuestionService {
 				return criteriaBuilder.greaterThan(root.get("id"), id);			
 		};
 	}
+
+	public void delete(long id) {
+		questionRepository.deleteById(id);
+		
+	}
 }

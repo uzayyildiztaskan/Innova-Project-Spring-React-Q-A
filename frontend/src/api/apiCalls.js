@@ -52,3 +52,7 @@ export const getNewQuestions = (id, username) => {
     const path = username ? `/api/1.0/users/${username}/questions/${id}?direction=after` : `/api/1.0/questions/${id}?direction=after`;
     return axios.get(path);
 };
+
+export const deleteQuestion = id =>{
+    return axios.delete(`/api/1.0/questions/${id}`);
+}

@@ -75,6 +75,13 @@ const QuestionFeed = () => {
         setNewQuestionCount(0);
     }
 
+    const onDeleteQuestionSuccess = id => {
+        setQuestionPage(previousQuestionPage => ({
+            ... previousQuestionPage,
+            content: previousQuestionPage.content.filter(question => question.id != id)
+        }));
+    }
+
     const { content, last} = questionPage;
 
     if(content.length == 0) {
@@ -87,7 +94,7 @@ const QuestionFeed = () => {
                 <div className = "alert alert-secondary text-center mb-1" style = {{cursor: loadNewQuestionsProgress ? 'not-allowed' : 'pointer'}} onClick = {loadNewQuestionsProgress ? () => {} : loadNewQuestions}>{loadNewQuestionsProgress ? <Spinner /> : 'There are new questions'}</div>
             )}
             {content.map(question => {
-                return <QuestionView key = {question.id} question ={question} />
+                return <QuestionView key = {question.id} question ={question} onDeleteQuestion = {onDeleteQuestionSuccess}/>
             })}
             {!last && (
                 <div className = "alert alert-secondary text-center" style = {{cursor: loadOldQuestionsProgress ? 'not-allowed' : 'pointer'}} onClick = {loadOldQuestionsProgress ? () => {} : loadOldQuestions}>

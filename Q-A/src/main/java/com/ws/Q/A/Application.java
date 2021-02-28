@@ -28,7 +28,7 @@ public class Application {
 				user.setDisplayName("display" + i);
 				user.setPassword("P4ssword");
 				userService.save(user);
-				for(int j = 1; j <= 2; j++) {
+				for(int j = 1; j <= 20; j++) {
 					Question question = new Question();
 					question.setContent("question - (" + j + ") from user (" + i + ")");
 					questionService.save(question, user);

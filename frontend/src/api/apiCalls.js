@@ -35,6 +35,20 @@ export const postQuestion = question => {
 };
 
 export const getQuestions = (username, page = 0) => {
-    const path = username ? `/api/1.0/users/${username}/questions?page=` : '/api/1.0/questions?page='
+    const path = username ? `/api/1.0/users/${username}/questions?page=` : '/api/1.0/questions?page=';
     return axios.get(path+ page);
+};
+
+export const getOldQuestions = (id, username) => {
+    const path = username ? `/api/1.0/users/${username}/questions/${id}` : `/api/1.0/questions/${id}`;
+    return axios.get(path);
+};
+export const getNewQuestionCount = (id, username) => {
+    const path = username ? `/api/1.0/users/${username}/questions/${id}?count=true` : `/api/1.0/questions/${id}?count=true`;
+    return axios.get(path);
+};
+
+export const getNewQuestions = (id, username) => {
+    const path = username ? `/api/1.0/users/${username}/questions/${id}?direction=after` : `/api/1.0/questions/${id}?direction=after`;
+    return axios.get(path);
 };

@@ -17,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ws.Q.A.answer.Answer;
 import com.ws.Q.A.question.Question;
 
 import lombok.Data;
@@ -53,6 +54,9 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Question> questions;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	private List<Answer> answers;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ws.Q.A.error.NotFoundException;
 import com.ws.Q.A.user.User;
 import com.ws.Q.A.user.UserService;
 
@@ -89,5 +90,13 @@ public class QuestionService {
 
 	public void delete(long id) {		
 		questionRepository.deleteById(id);		
+	}
+	
+	public Question getById(long id) {
+		Question inDB = questionRepository.findById(id);
+		if(inDB == null) {
+			throw new NotFoundException();
+		}
+		return inDB;
 	}
 }

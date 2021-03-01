@@ -11,10 +11,14 @@ const HomePage = () => {
             <div className = "row">
                 <div className = "col">
                     {isLoggedIn && (
-                        <div className = "mb-1"> 
-                            <SubmitQuestion />
-                        </div>
+                        <>
+                            <h5>Sumbit your question:</h5>
+                            <div className = "mb-2"> 
+                                <SubmitQuestion />
+                            </div>
+                        </>
                     )}
+                    <h5 className = "mt-4">Asked Questions :</h5>
                     <QuestionFeed />
                 </div>
                 <div className = "col">

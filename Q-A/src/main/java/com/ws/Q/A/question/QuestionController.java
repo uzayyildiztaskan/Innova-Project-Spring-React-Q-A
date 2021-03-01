@@ -69,7 +69,7 @@ public class QuestionController {
 	
 	@DeleteMapping("/questions/{id:[0-9]+}")
 	@PreAuthorize("@questionSecurity.isAllowedToDelete(#id, principal)")
-	GenericResponse deleteHoax(@PathVariable long id) {
+	GenericResponse deleteQuestion(@PathVariable long id) {
 		questionService.delete(id);
 		return new GenericResponse("Question removed");
 	}

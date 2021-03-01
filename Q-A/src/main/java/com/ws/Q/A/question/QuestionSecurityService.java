@@ -1,7 +1,5 @@
 package com.ws.Q.A.question;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +12,11 @@ public class QuestionSecurityService {
 	QuestionRepository questionRepository;
 	
 	public boolean isAllowedToDelete(long id, User loggedInUser) {
-		Optional<Question> optionalQuestion = questionRepository.findById(id);
-		if(!optionalQuestion.isPresent()) {
+		Question question = questionRepository.findById(id);
+		if(question == null) {
 			return false;
 		}
 		
-		Question question = optionalQuestion.get();		
 		if(question.getUser().getId() != loggedInUser.getId()) {
 			return false;
 		}

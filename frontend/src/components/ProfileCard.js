@@ -12,7 +12,9 @@ import Modal from './Modal';
 const ProfileCard = (props) => {
     const [inEditMode, setInEditMode] = useState(false);
     const [updatedDisplayName, setUpdatedDisplayName] = useState();
-    const { username: loggedInUsername} = useSelector((store) => ({username: store.username}));
+    const { username: loggedInUsername, isLoggedIn} = useSelector((store) => ({
+        isLoggedIn: store.isLoggedIn,
+        username: store.username}));
     const routeParams = useParams();
     const pathUsername = routeParams.username;
     const [ user, setUser] = useState({});
@@ -28,8 +30,14 @@ const ProfileCard = (props) => {
     }, [props.user]);
 
     useEffect(() => {
-        setEditable(pathUsername == loggedInUsername)
+        setEditable(pathUsername == loggedInUsername);
     }, [pathUsername, loggedInUsername]);
+
+    useEffect(() => {
+        if(!isLoggedIn){
+            setInEditMode(false);
+        }
+    }, [isLoggedIn])
 
     useEffect(() => {
         setValidationErrors(previousValidationErrors => ({

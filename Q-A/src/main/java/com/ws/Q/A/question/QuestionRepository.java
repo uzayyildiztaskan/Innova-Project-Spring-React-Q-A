@@ -10,4 +10,6 @@ import com.ws.Q.A.user.User;
 public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question>{
 	
 	Page<Question> findByUser(User user, Pageable page);
+	
+	Question findById(long id);
 }

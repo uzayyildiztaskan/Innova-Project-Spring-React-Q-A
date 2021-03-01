@@ -55,8 +55,21 @@ export const getNewQuestions = (id, username) => {
 
 export const deleteQuestion = id =>{
     return axios.delete(`/api/1.0/questions/${id}`);
-}
+};
 
 export const deleteUser = username => {
     return axios.delete(`/api/1.0/users/${username}`);
-}
+};
+
+export const postAnswer = (question, id) => {    
+    return axios.post(`/api/1.0/questions/${id}/answers`, question);
+};
+
+export const getAnswers = (id, page = 0) => {
+    const path =`/api/1.0/questions/${id}/answers?page=`;
+    return axios.get(path+ page);
+};
+
+export const deleteAnswer = (questionId, answerId) => {
+    return axios.delete(`/api/1.0/questions/${questionId}/answers/${answerId}`);
+};

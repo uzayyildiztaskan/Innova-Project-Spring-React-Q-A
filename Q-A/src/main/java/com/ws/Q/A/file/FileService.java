@@ -44,7 +44,7 @@ public class FileService {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
-	public void deleteFile(String oldImageName) {
+	public void deleteProfileImage(String oldImageName) {
 		if(oldImageName == null) {
 			return;
 		}

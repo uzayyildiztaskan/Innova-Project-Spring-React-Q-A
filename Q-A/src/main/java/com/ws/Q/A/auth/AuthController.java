@@ -2,21 +2,27 @@ package com.ws.Q.A.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ws.Q.A.shared.CurrentUser;
-import com.ws.Q.A.user.User;
-import com.ws.Q.A.user.UserRepository;
-import com.ws.Q.A.user.vm.UserVM;
+import com.ws.Q.A.shared.GenericResponse;
 
 @RestController
 public class AuthController {
 	
 	@Autowired
-	UserRepository userRepository;
+	AuthService authService;
 	
 	@PostMapping("/api/1.0/auth")
-	UserVM handleAuthentication(@CurrentUser User user) {
-		return new UserVM(user);
+	AuthResponse handleAuthentication(@RequestBody Credentials credentials) {
+		return authService.authenticate(credentials);
+	}
+	
+	@PostMapping("/api/1.0/logout")
+	GenericResponse handleLogout(@RequestHeader(name = "Authorization") String authorization) {
+		String token = authorization.substring(7);
+		authService.clearToken(token);
+		return new GenericResponse("Logout Success");
 	}
 }

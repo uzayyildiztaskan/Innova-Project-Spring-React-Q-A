@@ -1,10 +1,18 @@
 import * as ACTIONS from './Constants';
-import { login, signup } from '../api/apiCalls'
+import { login, signup, logout } from '../api/apiCalls'
 
 export const logoutSuccess = () => {
-    return {
-        type: ACTIONS.LOGOUT_SUCCESS
-    };
+
+    return async function(dispatch){
+        try{
+            await logout();
+        } catch (error) {
+
+        }
+        dispatch({
+            type: ACTIONS.LOGOUT_SUCCESS
+        })
+    }
 };
 
 export const loginSuccess = (authState) => {
@@ -29,8 +37,9 @@ export const loginHandler = (credentials) => {
         const response = await login(credentials)
                 
         const authState = {
-            ... response.data,
-            password: credentials.password
+            ... response.data.user,
+            password: credentials.password,
+            token: response.data.token
         };
         dispatch(loginSuccess(authState));
         return response;

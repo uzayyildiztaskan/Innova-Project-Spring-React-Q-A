@@ -36,7 +36,7 @@ public class User implements UserDetails{
 	@GeneratedValue
 	private long id;
 	
-	@NotNull
+	@NotNull(message = "{askify.constraint.username.notNull.message}")
 	@Size(min = 4, max = 255)
 	@UniqueUsername
 	private String username;
@@ -47,7 +47,7 @@ public class User implements UserDetails{
 	
 	@NotNull
 	@Size(min = 8, max = 255)
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{askify.constraint.password.Pattern.message}")
 	private String password;
 	
 	@Lob

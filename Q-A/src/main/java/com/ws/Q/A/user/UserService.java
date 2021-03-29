@@ -32,11 +32,17 @@ public class UserService {
 		userRepository.save(user);		
 	}
 
-	public Page<User> getUsers(Pageable page, User user) {
-		if(user != null) {
-			return userRepository.findByUsernameNot(user.getUsername(), page);
+	public Page<User> getUsers(Pageable page, User user, String searchedDisplayName) {
+		
+		if(searchedDisplayName == null) {
+			if(user != null) {
+				return userRepository.findByUsernameNot(user.getUsername(), page);
+			}
+			return userRepository.findAll(page);			
 		}
-		return userRepository.findAll(page);
+		
+		return userRepository.findByDisplayNameContains(searchedDisplayName, page);
+		
 	}
 
 	public User getByUsername(String username) {

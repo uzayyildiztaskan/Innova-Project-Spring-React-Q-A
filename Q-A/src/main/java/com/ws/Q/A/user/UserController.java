@@ -27,15 +27,15 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@PostMapping("users")
+	@PostMapping("/users")
 	public GenericResponse registerUser(@Valid @RequestBody User user) {		
 		userService.save(user);
 		return new GenericResponse("User created");
 	}
 	
-	@GetMapping("users")
-	Page<UserVM> getUsers(Pageable page, @CurrentUser User user){
-		return userService.getUsers(page, user).map(UserVM::new);
+	@GetMapping("/users")
+	Page<UserVM> getUsers(Pageable page, String searchedDisplayName,@CurrentUser User user){
+		return userService.getUsers(page, user, searchedDisplayName).map(UserVM::new);
 	}
 	
 	@GetMapping("/users/{username}")

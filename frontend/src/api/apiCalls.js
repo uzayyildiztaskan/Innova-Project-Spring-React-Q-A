@@ -12,8 +12,8 @@ export const logout = () => {
     return axios.post('/api/1.0/logout');
 };
 
-export const getUsers = (page = 0, size = 3) => {
-    return axios.get(`/api/1.0/users?page=${page}&size=${size}`);
+export const getUsers = (page = 0, size = 3, searchedDisplayName) => {
+    return axios.get(`/api/1.0/users?page=${page}&size=${size}&searchedDisplayName=${searchedDisplayName}`);
 };
 
 export const setAuthorizationHeader = ({isLoggedIn, token}) => {

@@ -13,6 +13,8 @@ const UserList = () => {
         number: 0
     });
 
+    const [searchedDisplayName, setSearchedDisplayName] = useState("");
+
     const [loadFailure, setLoadFailure] = useState(false);
 
     const pendingApiCall = useApiProgress('get', '/api/1.0/users?page');
@@ -23,7 +25,7 @@ const UserList = () => {
     
     useEffect(() => {
         loadUsers();
-    }, [isLoggedIn]);
+    }, [isLoggedIn, searchedDisplayName]);
 
     const onClickNext = () => {
         const nextPage = page.number + 1;
@@ -35,10 +37,16 @@ const UserList = () => {
         loadUsers(previousPage);
     }
 
+    const onChange = event => {
+        const value = event.target.value;
+        setSearchedDisplayName(value);
+
+    };
+
     const loadUsers = async page => {        
         setLoadFailure(false)
         try{
-            const response = await getUsers(page);            
+            const response = await getUsers(page, 3, searchedDisplayName);
             setPage(response.data);  
         } catch(error) {
             setLoadFailure(true);
@@ -63,6 +71,10 @@ const UserList = () => {
     return (
         <div className = "card">
             <h3 className = "card-header text-center">Users</h3>
+            <h5 className = "text-left">Search :</h5>
+            <div className = "input-container">
+            <input className = "form-control" value={searchedDisplayName} onChange={onChange} />
+            </div>
             <div className = "list-group-flush">
                 {users.map(user => (
                     <UserListItem key = {user.username} user = {user} />

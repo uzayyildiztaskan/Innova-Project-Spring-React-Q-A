@@ -17,6 +17,10 @@ const QuestionView = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [answersVisible, setAnswersVisible] = useState(false);
 
+    const {isLoggedIn} = useSelector((store) => ({
+        isLoggedIn: store.isLoggedIn
+      }));
+
     const pendingApiCall = useApiProgress('delete', `/api/1.0/questions/${id}`, true);
 
     const formatted = format(timestamp);
@@ -67,7 +71,7 @@ const QuestionView = (props) => {
                     {answersVisible ? 'Hide Answers' : 'Show Answers'}
                 </div>
                 <div>
-                    <SubmitAnswer question = {question} />
+                    {isLoggedIn && <SubmitAnswer question = {question} /> }
                     {answersVisible && (<AnswerFeed question = {question} />)}
                 </div>
             </div>

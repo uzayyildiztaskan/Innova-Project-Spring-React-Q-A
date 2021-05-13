@@ -32,11 +32,11 @@ public class AuthService {
 	public AuthResponse authenticate(Credentials credentials) {
 		User inDB = userRepository.findByUsername(credentials.getUsername());
 		if(inDB == null) {
-			throw new AuthException();
+			throw new AuthException("Username not found");
 		}
 		boolean matches = passwordEncoder.matches(credentials.getPassword(), inDB.getPassword());
 		if(!matches) {
-			throw new AuthException();
+			throw new AuthException("Incorrect password");
 		}
 		UserVM userVM = new UserVM(inDB);
 		String token = generateRandomToken();

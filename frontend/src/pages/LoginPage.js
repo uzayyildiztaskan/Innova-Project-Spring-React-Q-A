@@ -3,7 +3,7 @@ import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import { useApiProgress } from '../shared/ApiProgress';
 import { useDispatch } from 'react-redux';
-import { loginHandler, loginSuccess } from '../redux/authActions';
+import { loginHandler } from '../redux/authActions';
 
 const LoginPage = (props) => {
 
